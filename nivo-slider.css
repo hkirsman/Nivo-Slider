@@ -14,10 +14,11 @@
 .nivoSlider {
 	position:relative;
 }
-.nivoSlider img {
+.nivoSlider img, .nivoSlider object {
 	position:absolute;
 	top:0px;
 	left:0px;
+	display:none;
 }
 /* If an image is wrapped in a link */
 .nivoSlider a.nivo-imageLink {

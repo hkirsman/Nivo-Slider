@@ -1,5 +1,6 @@
 /*
  * jQuery Nivo Slider v2.6
+ * Forked to support flash
  * http://nivo.dev7studios.com
  *
  * Copyright 2011, Gilbert Pellegrom
@@ -327,6 +328,11 @@
 					slider.css('background','url("'+ vars.currentImage.attr('src') +'") no-repeat');
 				}
 			}
+			$.each(kids, function() {
+				if($(this).is('object')) {
+					$(this).css('display', 'none');
+				}
+			});
 			vars.currentSlide++;
             //Trigger the slideshowEnd callback
 			if(vars.currentSlide == vars.totalSlides){ 
@@ -337,6 +343,9 @@
 			//Set vars.currentImage
 			if($(kids[vars.currentSlide]).is('img')){
 				vars.currentImage = $(kids[vars.currentSlide]);
+			} else if($(kids[vars.currentSlide]).is('object')) {
+				vars.currentImage = $(kids[vars.currentSlide]);
+				slider.css('background','none');
 			} else {
 				vars.currentImage = $(kids[vars.currentSlide]).find('img:first');
 			}
@@ -372,7 +381,12 @@
 		
 			//Run effects
 			vars.running = true;
-			if(settings.effect == 'sliceDown' || settings.effect == 'sliceDownRight' || vars.randAnim == 'sliceDownRight' ||
+			if(vars.currentImage.get(0).nodeName.toLowerCase() == 'object') {
+                		$(vars.currentImage).css({
+                    			'display':'block'
+				});
+				slider.trigger('nivo:animFinished');
+			} else if(settings.effect == 'sliceDown' || settings.effect == 'sliceDownRight' || vars.randAnim == 'sliceDownRight' ||
 				settings.effect == 'sliceDownLeft' || vars.randAnim == 'sliceDownLeft'){
 				createSlices(slider, settings, vars);
 				var timeBuff = 0;
